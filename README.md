@@ -3,9 +3,6 @@ MintMe.com Coin Explorer
 
 <img src="public/img/explorer-logo.png" alt="ETC Explorer logo" height="200" />
 
-<b>Live Version: [etherhub.io](http://etherhub.io)</b>
-
-Follow the project progress at: [ETC Block Explorer Development](https://github.com/ethereumclassic/explorer)
 
 ## Local installation
 
