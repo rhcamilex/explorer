@@ -174,7 +174,7 @@ ExecStart=<PATH OF NODE>/bin/npm run start
 [Install]
 WantedBy=multi-user.target
 ```
-Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (path and mongo_uri) and set the correspond values of your system. Note: User and Group must mtach with owner and group of your explorer folder.
+Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (path and mongo_uri) and set the correspond values of your system. Note: User and Group must match with owner and group of your explorer folder.
 
 save changes and run `systemctl daemon-reload` `systemctl start webchain-explorer`
 
