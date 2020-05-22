@@ -1,8 +1,8 @@
 # Webchain Explorer
 
-<img src="public/img/explorer-logo.png" alt="ETC Explorer logo" height="200" />
+<img src="public/img/explorer-logo.png" alt="Webchain Explorer logo" height="200" />
 
-## Local installation
+## Installation
 
 Clone the repo
 
@@ -26,7 +26,7 @@ Review your configuration file: `cat config.json`
 
 The `config.json` file must looks as follow
 
-Basic settings:
+Settings:
 ```{
     "nodeAddr":     "localhost",
     "gethPort":     39573,
@@ -70,7 +70,6 @@ Basic settings:
 
 ```
 
-
 | Name  | Explanation |
 |-------------|-----|
 | `nodeAddr` | Your node API RPC address. |
@@ -83,9 +82,7 @@ Basic settings:
 | `patchBlocks` | If `patch` is set to true, the amount of block specified will be check from the latest one. |
 
 
-### Mongodb Auth setting.
-
-#### Configure MongoDB
+### Configure MongoDB
 
 In view of system security, most of mongoDB Admin has setup security options, So, You need to setup mongodb auth informations.
 Switch to the built-in admin database:
@@ -110,7 +107,7 @@ $ > db.createUser( { user: "explorer", pwd: "<Enter a secure password>", roles: 
 $ > quit()
 ```
 
-Above dbuser explorer will full access explorerDB and clustor setting will be well used on monitoring the multiple sharding and replication of multiple mongodb instances.
+Above dbuser explorer will full access explorerDB and cluster setting will be well used on monitoring the multiple sharding and replication of multiple mongodb instances.
 Enable database authorization in the MongoDB configuration file /etc/mongodb.conf by appending the following lines:
 
 ```
@@ -129,21 +126,8 @@ If everything is configured correctly the Mongo Shell will connect and
 ```
 $ > show dbs
 ```
-
 will show db informations.
-and You can add modified from  ./db.js:103 lines,  add auth information and mongodb connect options.
 
-```
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost/explorerDB', {
-  useMongoClient: true
-  // poolSize: 5,
-  // rs_name: 'myReplicaSetName',
-  // user: 'explorer',
-  // pass: 'yourdbpasscode'
-});
-```
-
-And explore it.
 
 ### Run
 
@@ -167,10 +151,66 @@ You can configure intervals (how often a new data point is pulled) and range (ho
 
 `RESCAN=100:7700000 node tools/stats.js` (New data point every 100 blocks. Go back 7,700,000 blocks).
 
-## Nginx node proxy configuration
-
 ## Configuring system service for webchain-explorer
 
+Create new systemd service by creating a service file at `/etc/systemd/system` with suffix `.service` e.g.: `sudo touch /etc/systemd/system/webchain-explorer.service` and put the following content on it:
+
+```[Unit]
+Description=Webchain explorer
+After=network.target
+
+[Service]
+User=<user_owner_of_explorer_folder>
+Group=<your_nginx_group>
+
+Environment=MONGO_URI=mongodb://blockDB_user:<MONGO_PASSWORD>@127.0.0.1/blockDB
+Environment=PATH=<PATH OF NODE BINARY>:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+Type=simple
+Restart=on-failure
+WorkingDirectory=<PATH OF EXPLORER>
+ExecStart=<PATH OF NODE>/bin/npm run start
+
+[Install]
+WantedBy=multi-user.target
+```
+Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (PATH and MONGO_URI) and set the correspond values of your system.
+
+save changes and run `systemctl daemon-reload` `systemctl start webchain-explorer`
+
+## Nginx node proxy configuration
+
+Create a new nginx conf file in order to proxy pass node explorer app (by default app,js runs on port 3000). Add the follofing lines to the new nginx conf (Note you must to change alias value):
+``` 
+listen <your ip>;
+server_name  <your.webchain.explorer.hosts.example>   
+.
+.
+.
+location /explorer {
+        location /explorer {
+            expires 10m;
+            alias /path/of/webchain-explorer/public;
+            try_files $uri @nodeproxy;
+        }
+
+    }
+
+    location @nodeproxy {
+        expires 10m;
+        rewrite /explorer/(.*) /$1  break;
+        proxy_pass http://127.0.0.1:3000;
+        proxy_redirect     off;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+```
+After that run `systemctl reload nginx`
+
+Test it on your browser!
 
 ## Docker installation
 
