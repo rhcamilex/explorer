@@ -153,7 +153,7 @@ You can configure intervals (how often a new data point is pulled) and range (ho
 
 ## Configuring system service for webchain-explorer
 
-Create new systemd service by creating a service file at `/etc/systemd/system` with suffix `.service` e.g.: `sudo touch /etc/systemd/system/webchain-explorer.service` and put the following content on it:
+Create a service file at `/etc/systemd/system` with suffix `.service` e.g.: `sudo touch /etc/systemd/system/webchain-explorer.service` and put the following content on it:
 
 ```[Unit]
 Description=Webchain explorer
@@ -174,13 +174,13 @@ ExecStart=<PATH OF NODE>/bin/npm run start
 [Install]
 WantedBy=multi-user.target
 ```
-Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (PATH and MONGO_URI) and set the correspond values of your system.
+Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (path and mongo_uri) and set the correspond values of your system.
 
 save changes and run `systemctl daemon-reload` `systemctl start webchain-explorer`
 
 ## Nginx node proxy configuration
 
-Create a new nginx conf file in order to proxy pass node explorer app (by default app,js runs on port 3000). Add the follofing lines to the new nginx conf (Note you must to change alias value):
+Create a new nginx conf file in order to proxy pass node explorer app (by default `app.js` runs on port 3000). Add the following lines to the new nginx conf (Note you must to change alias value):
 ``` 
 listen <your ip>;
 server_name  <your.webchain.explorer.hosts.example>   
