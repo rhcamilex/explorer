@@ -174,13 +174,13 @@ ExecStart=<PATH OF NODE>/bin/npm run start
 [Install]
 WantedBy=multi-user.target
 ```
-Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (path and mongo_uri) and set the correspond values of your system.
+Note you need to change `User` `Group`, `ExecStart`, `WorkingDirectory` and `Environment` (path and mongo_uri) and set the correspond values of your system. Note: User and Group must mtach with owner and group of your explorer folder.
 
 save changes and run `systemctl daemon-reload` `systemctl start webchain-explorer`
 
 ## Nginx node proxy configuration
 
-Create a new nginx conf file in order to proxy pass node explorer app (by default `app.js` runs on port 3000). Add the following lines to the new nginx conf (Note you must to change alias value):
+Create a new nginx conf file in order to proxy pass the node explorer app in nginx (by default `app.js` runs on port 3000). Add the following lines to the new nginx conf (Note you must to change alias value):
 ``` 
 listen <your ip>;
 server_name  <your.webchain.explorer.hosts.example>   
