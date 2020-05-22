@@ -22,84 +22,66 @@ Debian based distro Linux: `sudo apt-get install -y mongodb-org`
 
 This will fetch and parse the entire blockchain.
 
-Setup your configuration file: `cp config.example.json config.json`
+Review your configuration file: `cat config.json`
 
-Edit `config.json` as you wish
+The `config.json` file must looks as follow
 
 Basic settings:
-```json
-{
+```{
     "nodeAddr":     "localhost",
+    "gethPort":     39573,
     "wsPort":       8546,
     "startBlock":   0,
     "endBlock":     "latest",
-    "quiet":        true,
+    "quiet":        false,
     "syncAll":      true,
     "patch":        true,
     "patchBlocks":  100,
     "bulkSize":     100,
     "settings": {
-        "symbol": "ETC",
-        "name": "Ethereum Classic",
-        "title": "Ethereum Classic Block Explorer",
-        "author": "Elaine",
-        "rss": "https://ethereumclassic.org",
-        "reddit": "https://www.reddit.com/r/EthereumClassic",
-        "twitter": "https://twitter.com/eth_classic",
-        "linkedin": "https://www.linkedin.com/company/ethereum-classic",
-        "github": "https://github.com/ethereumclassic",
-        "logo": "/img/explorer-logo.png",
-        "copyright": "2019 &copy; Ethereum Classic.",
-        "poweredbyCustom": false,
-        "poweredbyEtcImage": "/img/powered-by-etcexplorer-w.png",
-        "poweredbyEtc": true,
+        "symbol": "WEB",
+        "name": "Webchain",
+        "description": "Webchain Block Explorer allows you to search through the blockchain. Enter a wallet address, transaction hash, block hash or block number.",
+        "keywords": "Block Height, Block Time, Network Hashrate, Difficulty, Transaction hash, Block Explorer, block number, block hash, wallet address",
+        "author": "Webchain project",
+        "contact": "mailto:support@webchain.network",
+        "about": "This is an open source Webchain Explorer.",
+        "facebook": "http://facebook.com/thewebchain",
+        "twitter": "https://twitter.com/TheWebchain",
+        "github": "https://github.com/webchain-network",
+        "linkedin": "https://www.linkedin.com/company/webchain-blockchain",
+        "reddit": "https://www.reddit.com/r/Webchain",
+        "telegram_group": "https://t.me/joinchat/Hzio4lCr-95bHcbB1-RX9Q",
+        "telegram_channel": "https://www.t.me/webchainnetwork",
+        "discord": "https://discord.gg/uuZXhCn",
+        "gitter": "https://gitter.im/webchain-network/public",
+        "logo": "img/explorer-logo.png",
+        "customCss": "green-haze.min.css",
+        "copyright": "2018-2019 &copy; Webchain explorer.",
         "useRichList": true,
-        "useFiat": true,
+        "useFiat": false,
+        "poweredbyCustom": "Powered by <a href=\"https://github.com/webchain-network/explorer\" target=\"_blank\">Webchain explorer</a>",
         "miners": {
-            "0xdf7d7e053933b5cc24372f878c90e62dadad5d42": "EtherMine",
-            "0xc91716199ccde49dc4fafaeb68925127ac80443f": "F2Pool",
-            "0x9eab4b0fc468a7f5d46228bf5a76cb52370d068d": "NanoPool",
-            "0x1C0FA194a9d3B44313DCD849F3C6be6Ad270a0A4": "MiningPoolHub",
-            "0x4750e296949b747df1585aa67beee8be903dd560": "UUPool",
-            "0xef224fa5fad302b51f38898f4df499d7af127af0": "91pool",
-            "0x0073Cf1B9230cF3EE8Cab1971B8DbeF21eA7B595": "2miners",
-            "0x4c2b4e716883a2c3f6b980b70b577e54b9441060": "ETCPool PL",
-            "0xd144e30a0571aaf0d0c050070ac435deba461fab": "Clona Network",
-            "0x568f58bf1667504fdf5aa02d776c156f940178a5": "Whalesburg",
-            "0x3b2d2613ad66d66ee0cb518aeeccc98e9e3b19c0": "private(0x3b2d2613)",
-            "0x919973eb38844313dc31c41e140700d6e333f8d5": "private(0x919973eb)",
-            "0xb205f337bad80e28351c7540b741c81470c4927f": "private(0xb205f337)",
-            "0x232cad0429e653ab610fbcf7e7ebee2f05f28410": "private(0x232cad04)",
-            "0x999c2944807874d3677ee3c6065c8a8a92721ac5": "NinjaPool.jp",
-            "0x39cd14977601184b7da518fd352261aad0cb9fd3": "91pool",
-            "0xf35074bbd0a9aee46f4ea137971feec024ab704e": "Solo Mining Pools",
-            "0xa97ed75172773ec705c2c78d999d3203199101bd": "epool",
-            "0x58b3cabd0c5c777da2c1c4d4f7ecc8afe5674f20": "private(0x58b3cabd0)",
-            "0x87cfd09c483fe65352456bb26c784a0e4c4ba389": "ArsMine",
-            "0x5bc9ccbd3115cefb6f382d33e8ce2a0aba084da4": "private(0x5bc9ccbd3)",
-            "0x4924414988feb1ee16e29298509f96317400eb57": "private(0x492441498)",
-            "0xa9a926bed50dc038b20bb20de361e4c35aae51fc": "private(0xa9a926bed)",
-            "0x0073cf1b9230cf3ee8cab1971b8dbef21ea7b595": "2miners",
-            "0x004730417cd2b1d19f6be2679906ded4fa8a64e2": "2miners",
-            "0x1c0fa194a9d3b44313dcd849f3c6be6ad270a0a4": "MiningPoolHub"
-         }
+         },
+        "analytics-code": "UA-1111111-00",
+        "path": "/explorer/"
     }
 }
 
 ```
 
+
 | Name  | Explanation |
 |-------------|-----|
 | `nodeAddr` | Your node API RPC address. |
 | `wsPort` | Your node API WS (Websocket) port. (RPC HTTP port is deprecated on Web3 1.0 see https://web3js.readthedocs.io/en/1.0/web3.html#value) |
-| `startBlock` | This is the start block of the blockchain, should always be 0 if you want to sync the whole ETC blockchain. |
+| `startBlock` | This is the start block of the blockchain, should always be 0 if you want to sync the whole Webchain. |
 | `endBlock` | This is usually the 'latest'/'newest' block in the blockchain, this value gets updated automatically, and will be used to patch missing blocks if the whole app goes down. |
 | `quiet` | Suppress some messages. (admittedly still not quiet) |
 | `syncAll` | If this is set to true at the start of the app, the sync will start syncing all blocks from lastSync, and if lastSync is 0 it will start from whatever the endBlock or latest block in the blockchain is. |
 | `patch` | If set to true and below value is set, sync will iterated through the # of blocks specified. |
 | `patchBlocks` | If `patch` is set to true, the amount of block specified will be check from the latest one. |
-| `useRichList` | If `useRichList` is set to true, explorer will update account balance for richlist page. |
-| `useFiat` | If `useFiat` is set to true, explorer will show price for account & tx page. ( Disable for testnets )|
+
 
 ### Mongodb Auth setting.
 
@@ -184,6 +166,11 @@ Enabling richlist requires running a separate process:
 You can configure intervals (how often a new data point is pulled) and range (how many blocks to go back) with the following:
 
 `RESCAN=100:7700000 node tools/stats.js` (New data point every 100 blocks. Go back 7,700,000 blocks).
+
+## Nginx node proxy configuration
+
+## Configuring system service for webchain-explorer
+
 
 ## Docker installation
 
